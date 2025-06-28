@@ -4,7 +4,9 @@ export async function getStrapiData() {
   return {
     siteSettings: {
       colors: {
-        primary: "#f3d200", // amber-500
+        //primary: "#f3d200", // amber-500
+        //morado "#a855f7", // purple-500
+        primary : "#a855f7", // amber-500
         secondary: "#1f2937", // gray-800
         accent: "#10b981", // emerald-500
         background: "#ffffff",
@@ -54,6 +56,65 @@ export async function getStrapiData() {
         icon: "Wrench",
         price: "Starting at $75",
         image: "https://cdn.prod.website-files.com/64d1eaa53f7e6a152b0a0722/67d88322581111d4590cf366_general-carpentry.webp",
+      },
+    ],
+    portfolio: [
+      {
+        id: 1,
+        title: "Modern Kitchen Renovation",
+        description: "Complete kitchen transformation with custom cabinets and granite countertops",
+        category: "painting",
+        type: "image",
+        src: "https://images.pexels.com/photos/3718434/pexels-photo-3718434.jpeg",
+        beforeImage: "https://images.pexels.com/photos/32752647/pexels-photo-32752647.jpeg",
+        afterImage: "https://images.pexels.com/photos/3718434/pexels-photo-3718434.jpeg",
+      },
+      {
+        id: 2,
+        title: "Hardwood Floor Installation",
+        description: "Beautiful oak hardwood flooring installation in living room",
+        category: "flooring",
+        type: "video",
+        src: "https://videos.pexels.com/video-files/6473954/6473954-uhd_1440_2560_25fps.mp4",
+        thumbnail: "https://images.pexels.com/photos/6474507/pexels-photo-6474507.jpeg",
+      },
+      {
+        id: 3,
+        title: "Bathroom Tile Work",
+        description: "Custom bathroom tile installation with modern design",
+        category: "flooring",
+        type: "image",
+        src: "https://images.pexels.com/photos/2988865/pexels-photo-2988865.jpeg",
+      },
+      {
+        id: 4,
+        title: "Exterior House Painting",
+        description: "Complete exterior house painting with weather-resistant paint",
+        category: "painting",
+        type: "video",
+        src: "https://videos.pexels.com/video-files/6474181/6474181-uhd_1440_2560_25fps.mp4",
+        thumbnail: "https://images.pexels.com/photos/6473977/pexels-photo-6473977.jpeg",
+      },
+      {
+        id: 5,
+        title: "Deck Repair and Staining",
+        description: "Deck restoration including repairs and protective staining",
+        category: "repairs",
+        type: "image",
+        src: "https://images.pexels.com/photos/449023/pexels-photo-449023.jpeg",
+        beforeImage: "https://images.pexels.com/photos/10111302/pexels-photo-10111302.jpeg",
+        afterImage: "https://images.pexels.com/photos/26756410/pexels-photo-26756410.jpeg",
+      },
+     
+      {
+        id: 6,
+        title: "Interior Room Makeover",
+        description: "Complete room transformation with painting and minor repairs",
+        category: "painting",
+        type: "image",
+        src: "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg",
+        beforeImage: "https://images.pexels.com/photos/735319/pexels-photo-735319.jpeg",
+        afterImage: "https://images.pexels.com/photos/106399/pexels-photo-106399.jpeg",
       },
     ],
     about: {

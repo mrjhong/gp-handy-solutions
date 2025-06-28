@@ -27,7 +27,8 @@ export function HeroSection({ data, colors }: HeroSectionProps) {
           className="object-cover opacity-20"
           priority
         />
-        <div className="absolute inset-0" style={{background: 'linear-gradient(90deg,rgba(0, 0, 0, 0.82) 32%, rgba(60, 47, 0, 0.57) 100%)'}} />
+        {/* background: 'linear-gradient(90deg,rgba(0, 0, 0, 0.82) 32%, rgba(60, 47, 0, 0.57) 100%)'} */}
+        <div className="absolute inset-0" style={{background: `linear-gradient(90deg,rgba(0, 0, 0, 0.82) 32%, color-mix(in srgb, ${colors.primary} 35%, transparent) 100%)`}} />
       </div>
 
       <div className="container mx-auto px-4 z-10 text-center">
