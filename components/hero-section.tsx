@@ -17,7 +17,7 @@ export function HeroSection({ data, colors }: HeroSectionProps) {
   return (
     <section
       className="relative min-h-screen flex items-center justify-center overflow-hidden"
-      style={{ backgroundColor: colors.background }}
+      style={{ backgroundColor: colors.backgroundSecondary }}
     >
       <div className="absolute inset-0 z-0">
         <Image
@@ -27,7 +27,7 @@ export function HeroSection({ data, colors }: HeroSectionProps) {
           className="object-cover opacity-20"
           priority
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-black/50 to-transparent" />
+        <div className="absolute inset-0" style={{background: 'linear-gradient(90deg,rgba(0, 0, 0, 0.82) 32%, rgba(60, 47, 0, 0.57) 100%)'}} />
       </div>
 
       <div className="container mx-auto px-4 z-10 text-center">
@@ -46,7 +46,7 @@ export function HeroSection({ data, colors }: HeroSectionProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.2 }}
             className="text-2xl md:text-3xl font-semibold mb-4"
-            style={{ color: colors.secondary }}
+            style={{ color: colors.textSecondary }}
           >
             {data.subtitle}
           </motion.p>
@@ -56,7 +56,7 @@ export function HeroSection({ data, colors }: HeroSectionProps) {
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
             className="text-lg md:text-xl mb-8 max-w-2xl mx-auto"
-            style={{ color: colors.text }}
+            style={{ color: colors.textSecondary }}
           >
             {data.description}
           </motion.p>
