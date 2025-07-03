@@ -28,7 +28,6 @@ export function HeroSection({ data, colors }: HeroSectionProps) {
           className="object-cover opacity-20"
           priority
         />
-        {/* background: 'linear-gradient(90deg,rgba(0, 0, 0, 0.82) 32%, rgba(60, 47, 0, 0.57) 100%)'} */}
         <div className="absolute inset-0" style={{background: `linear-gradient(90deg,rgba(0, 0, 0, 0.82) 32%, color-mix(in srgb, ${colors.primary} 35%, transparent) 100%)`}} />
       </div>
 
@@ -53,15 +52,20 @@ export function HeroSection({ data, colors }: HeroSectionProps) {
             {data.subtitle}
           </motion.p>
 
-          <motion.p
+          <motion.div
             initial={{ opacity: 0, y: 30 }}
             animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8, delay: 0.4 }}
-            className="text-lg md:text-xl mb-8 max-w-2xl mx-auto"
-            style={{ color: colors.textSecondary }}
+            className="text-lg md:text-xl mb-8 max-w-2xl mx-auto prose prose-lg"
+            style={{ 
+              color: colors.textSecondary,
+              maxWidth: 'none' // Evitar conflictos con prose
+            }}
           >
-           <BlocksRenderer content = {data.description}/>
-          </motion.p>
+            <div className="[&>p]:mb-0 [&>p]:leading-relaxed">
+              <BlocksRenderer content={data.description}/>
+            </div>
+          </motion.div>
 
           <motion.div
             initial={{ opacity: 0, y: 30 }}

@@ -42,14 +42,18 @@ export function FounderSection({ data, colors }: FounderSectionProps) {
                   className="absolute -top-2 -left-2 w-8 h-8 opacity-20" 
                   style={{ color: colors.primary }} 
                 />
-                <p className="text-lg leading-relaxed pl-6" style={{ color: colors.text }}>
-                  <BlocksRenderer content = {data.story}/>
-                </p>
+                <div className="text-lg leading-relaxed pl-6 prose prose-lg max-w-none" style={{ color: colors.text }}>
+                  <div className="[&>p]:mb-4 [&>p]:leading-relaxed">
+                    <BlocksRenderer content={data.story}/>
+                  </div>
+                </div>
               </div>
 
-              <p className="text-lg leading-relaxed" style={{ color: colors.text }}>
-               <BlocksRenderer content =  {data.motivation} />
-              </p>
+              <div className="text-lg leading-relaxed prose prose-lg max-w-none" style={{ color: colors.text }}>
+                <div className="[&>p]:mb-4 [&>p]:leading-relaxed">
+                  <BlocksRenderer content={data.motivation} />
+                </div>
+              </div>
 
               <div 
                 className="p-6 rounded-lg border-l-4"

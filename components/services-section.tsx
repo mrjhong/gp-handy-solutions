@@ -51,9 +51,9 @@ export function ServicesSection({ data, colors, fixedProperties }: AccordionServ
           <h2 className="text-4xl md:text-5xl font-bold mb-6" style={{ color: colors.secondary }}>
            {fixedProperties?.title || "Our Services"} 
           </h2>
-          <p className="text-xl max-w-3xl mx-auto" style={{ color: colors.text }}>
+          <div className="text-xl max-w-3xl mx-auto" style={{ color: colors.text }}>
              <BlocksRenderer content = {fixedProperties?.subtitle } />
-          </p>
+          </div>
         </motion.div>
 
         <div className="max-w-4xl mx-auto">

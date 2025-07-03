@@ -46,7 +46,8 @@ export async function getStrapiData(locale: string = 'en') {
       services,
       serviceSection,
       portfolio,
-      contact
+      contact,
+      quote
     ] = await Promise.all([
       fetchAPI('/site-setting?populate=*'),
       fetchAPI('/hero-section?populate=*', locale),
@@ -55,7 +56,8 @@ export async function getStrapiData(locale: string = 'en') {
       fetchAPI('/services?populate=*', locale),
       fetchAPI('/service-section?populate=*', locale),
       fetchAPI('/portfolios?populate=*', locale),
-      fetchAPI('/contact?populate=*', locale)
+      fetchAPI('/contact?populate=*', locale),
+      fetchAPI('/quote-section?populate=*')
     ])
 
 
@@ -127,7 +129,7 @@ export async function getStrapiData(locale: string = 'en') {
       },
       servicesSection: {
         title: serviceSection.data?.title || "Our Services",
-        subtitle: serviceSection.data?.subtitle || "Comprehensive handyman solutions for every needComprehensive solutions for your home and business needs. Click to explore each service category.",
+        subtitle: serviceSection.data?.subtitleService || "Comprehensive handyman solutions for every need Comprehensive solutions for your home and business needs. Click to explore each service category.",
         getQuote: serviceSection.data?.getQuote || "Get Quote for",
         contactSectionTitle: locale.includes('en') ? "ContactUs for your Quote" : "Contáctenos para su Cotización",
         contactSectionSubtitle:  locale.includes('en') ? "Need assistance? Call our line" : "¿Necesita ayuda? Llame a nuestra línea",
@@ -174,7 +176,8 @@ export async function getStrapiData(locale: string = 'en') {
         paysection: {
           title: locale.includes('en') ? "Quick Payment" : "Pago Rápido",
           subtitle: locale.includes('en') ? "For existing customers or quick payments" : "Para clientes existentes o pagos rápidos",
-          buttonText: locale.includes('en') ? "Pay whit PayPal" : "Pagar con PayPal"
+          buttonText: locale.includes('en') ? "Pay whit PayPal" : "Pagar con PayPal",
+          linkPayPal: quote.data?.linkPayPal || "https://www.paypal.com/paypalme/gphandysolution"
         },
         whychooseUs: {
           title: locale.includes('en') ? "Why Choose Us?" : "¿Por Qué Elegirnos?",

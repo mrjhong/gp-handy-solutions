@@ -152,13 +152,13 @@ export function PortfolioSection({ data, colors, fixedProperties}: PortfolioSect
                     <h3 className="text-xl font-semibold mb-2" style={{ color: colors.secondary }}>
                       {project.title}
                     </h3>
-                    <p className="text-sm" style={{ color: colors.text }}>
+                    <div className="text-sm" style={{ color: colors.text }}>
                       {Array.isArray(project.description) ? (
                         <BlocksRenderer content={project.description} />
                       ) : (
                         <span>{project.description}</span>
                       )}
-                    </p>
+                    </div>
                   </CardContent>
                 </Card>
               </motion.div>
@@ -266,13 +266,13 @@ export function PortfolioSection({ data, colors, fixedProperties}: PortfolioSect
                 <h3 className="text-2xl font-bold mb-2" style={{ color: colors.secondary }}>
                   {selectedProject.title}
                 </h3>
-                <p style={{ color: colors.text }}>
+                <div style={{ color: colors.text }}>
                   {Array.isArray(selectedProject.description) ? (
                     <BlocksRenderer content={selectedProject.description} />
                   ) : (
                     <span>{selectedProject.description}</span>
                   )}
-                </p>
+                </div>
               </div>
             </div>
           </div>

@@ -1,12 +1,13 @@
 "use client"
 
-import React, { createContext, useContext, useState, useEffect } from 'react'
+import React, { createContext, useContext, useState, useEffect, useCallback } from 'react'
 
 type Language = 'en' | 'es'
 
 interface LanguageContextType {
   language: Language
   setLanguage: (lang: Language) => void
+  isLoading: boolean
   t: (key: string) => string
 }
 
@@ -170,35 +171,121 @@ const translations = {
   }
 }
 
-export function LanguageProvider({ children }: { children: React.ReactNode }) {
-  const [language, setLanguage] = useState<Language>('en')
+// Función para detectar el idioma del navegador
+const detectBrowserLanguage = (): Language => {
+  if (typeof window === 'undefined') return 'en'
+  
+  const browserLang = navigator.language || navigator.languages[0]
+  return browserLang.startsWith('es') ? 'es' : 'en'
+}
 
+// Función para obtener el idioma guardado
+const getSavedLanguage = (): Language | null => {
+  if (typeof window === 'undefined') return null
+  
+  try {
+    const saved = localStorage.getItem('preferred-language')
+    return saved === 'en' || saved === 'es' ? saved : null
+  } catch (error) {
+    console.warn('Error accessing localStorage:', error)
+    return null
+  }
+}
+
+// Función para guardar el idioma
+const saveLanguage = (language: Language): void => {
+  if (typeof window === 'undefined') return
+  
+  try {
+    localStorage.setItem('preferred-language', language)
+  } catch (error) {
+    console.warn('Error saving to localStorage:', error)
+  }
+}
+
+export function LanguageProvider({ children }: { children: React.ReactNode }) {
+  const [language, setLanguageState] = useState<Language>('en')
+  const [isLoading, setIsLoading] = useState(true)
+
+  // Inicializar idioma
   useEffect(() => {
-    // Detectar idioma del navegador o localStorage
-    const savedLanguage = localStorage.getItem('preferred-language') as Language
-    const browserLanguage = navigator.language.startsWith('es') ? 'es' : 'en'
+    const initializeLanguage = () => {
+      const savedLanguage = getSavedLanguage()
+      const browserLanguage = detectBrowserLanguage()
+      
+      // Prioridad: idioma guardado > idioma del navegador > inglés por defecto
+      const initialLanguage = savedLanguage || browserLanguage
+      
+      console.log('🌍 Language initialization:', {
+        saved: savedLanguage,
+        browser: browserLanguage,
+        selected: initialLanguage
+      })
+      
+      setLanguageState(initialLanguage)
+      
+      // Si no había idioma guardado, guardar el seleccionado
+      if (!savedLanguage) {
+        saveLanguage(initialLanguage)
+      }
+      
+      setIsLoading(false)
+    }
+
+    // Pequeño delay para asegurar que el DOM esté listo
+    const timer = setTimeout(initializeLanguage, 100)
     
-    setLanguage(savedLanguage || browserLanguage)
+    return () => clearTimeout(timer)
   }, [])
 
-  const changeLanguage = (newLang: Language) => {
-    setLanguage(newLang)
-    localStorage.setItem('preferred-language', newLang)
-    
-    // Opcional: recargar la página para aplicar cambios
-    window.location.reload()
-  }
+  // Función para cambiar idioma
+  const changeLanguage = useCallback((newLang: Language) => {
+    if (newLang === language) {
+      console.log('🌍 Language already set to:', newLang)
+      return
+    }
 
-  const t = (key: string): string => {
-    return translations[language][key as keyof typeof translations[typeof language]] || key
+    console.log('🌍 Changing language from', language, 'to', newLang)
+    
+    setLanguageState(newLang)
+    saveLanguage(newLang)
+    
+    // Mostrar notificación de cambio
+    const message = newLang === 'es' 
+      ? 'Idioma cambiado a Español' 
+      : 'Language changed to English'
+    
+    console.log('✅', message)
+    
+    // Opcional: Mostrar toast de notificación
+    if (typeof window !== 'undefined' && window.dispatchEvent) {
+      window.dispatchEvent(new CustomEvent('language-changed', { 
+        detail: { language: newLang, message } 
+      }))
+    }
+  }, [language])
+
+  // Función de traducción
+  const t = useCallback((key: string): string => {
+    const translation = translations[language]?.[key as keyof typeof translations[typeof language]]
+    
+    if (!translation) {
+      console.warn(`🔍 Translation missing for key: ${key} in language: ${language}`)
+      return key
+    }
+    
+    return translation
+  }, [language])
+
+  const value = {
+    language,
+    setLanguage: changeLanguage,
+    isLoading,
+    t
   }
 
   return (
-    <LanguageContext.Provider value={{ 
-      language, 
-      setLanguage: changeLanguage, 
-      t 
-    }}>
+    <LanguageContext.Provider value={value}>
       {children}
     </LanguageContext.Provider>
   )

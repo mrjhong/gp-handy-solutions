@@ -29,10 +29,11 @@ export function AboutSection2({ data, colors }: EnhancedAboutSectionProps) {
             <p className="text-lg mb-6" style={{ color: colors.text }}>
               {data.subtitle}
             </p>
-            <p className="text-lg mb-8 leading-relaxed" style={{ color: colors.text }}>
-              <BlocksRenderer content = {data.description}/>
-              
-            </p>
+            <div className="text-lg mb-8 leading-relaxed prose prose-lg max-w-none" style={{ color: colors.text }}>
+              <div className="[&>p]:mb-4 [&>p]:leading-relaxed">
+                <BlocksRenderer content={data.description}/>
+              </div>
+            </div>
 
             <ul className="space-y-4">
               {data.features.map((feature: string, index: number) => (
@@ -91,9 +92,11 @@ export function AboutSection2({ data, colors }: EnhancedAboutSectionProps) {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-center leading-relaxed" style={{ color: colors.text }}>
-                  <BlocksRenderer content = {data.mission}/>
-                </p>
+                <div className="text-center leading-relaxed prose prose-sm max-w-none" style={{ color: colors.text }}>
+                  <div className="[&>p]:mb-2 [&>p]:leading-relaxed">
+                    <BlocksRenderer content={data.mission}/>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </motion.div>
@@ -118,9 +121,11 @@ export function AboutSection2({ data, colors }: EnhancedAboutSectionProps) {
                 </CardTitle>
               </CardHeader>
               <CardContent>
-                <p className="text-center leading-relaxed" style={{ color: colors.text }}>
-                   <BlocksRenderer content = {data.valueProposition}/>
-                </p>
+                <div className="text-center leading-relaxed prose prose-sm max-w-none" style={{ color: colors.text }}>
+                  <div className="[&>p]:mb-2 [&>p]:leading-relaxed">
+                    <BlocksRenderer content={data.valueProposition}/>
+                  </div>
+                </div>
               </CardContent>
             </Card>
           </motion.div>
@@ -157,8 +162,6 @@ export function AboutSection2({ data, colors }: EnhancedAboutSectionProps) {
             </Card>
           </motion.div>
         </div>
-
-       
       </div>
     </section>
   )
