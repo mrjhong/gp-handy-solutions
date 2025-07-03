@@ -17,6 +17,7 @@ import {
   Phone,
   ArrowRight
 } from "lucide-react"
+import { BlocksRenderer } from "@strapi/blocks-react-renderer"
 
 const iconMap = {
   Paintbrush,
@@ -32,9 +33,11 @@ const iconMap = {
 interface AccordionServicesSectionProps {
   data: any
   colors: any
+  fixedProperties: any
 }
 
-export function ServicesSection({ data, colors }: AccordionServicesSectionProps) {
+export function ServicesSection({ data, colors, fixedProperties }: AccordionServicesSectionProps) {
+  console.log ("Rendering ServicesSection with data:", fixedProperties)
   return (
     <section id="services" className="py-20" style={{ backgroundColor: `${colors.primary}05` }}>
       <div className="container mx-auto px-4">
@@ -46,10 +49,10 @@ export function ServicesSection({ data, colors }: AccordionServicesSectionProps)
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-6" style={{ color: colors.secondary }}>
-            Our Services
+           {fixedProperties?.title || "Our Services"} 
           </h2>
           <p className="text-xl max-w-3xl mx-auto" style={{ color: colors.text }}>
-            Comprehensive solutions for your home and business needs. Click to explore each service category.
+             <BlocksRenderer content = {fixedProperties?.subtitle } />
           </p>
         </motion.div>
 
@@ -114,7 +117,7 @@ export function ServicesSection({ data, colors }: AccordionServicesSectionProps)
                             }}
                             onClick={() => document.getElementById('quote-form')?.scrollIntoView({ behavior: 'smooth' })}
                           >
-                            Get Quote for {category.name}
+                          {fixedProperties.getQuote + category.name}  
                             <ArrowRight className="w-4 h-4 ml-2" />
                           </Button>
                         </AccordionContent>
@@ -170,7 +173,7 @@ export function ServicesSection({ data, colors }: AccordionServicesSectionProps)
                     }}
                     onClick={() => document.getElementById('quote-form')?.scrollIntoView({ behavior: 'smooth' })}
                   >
-                    Request Cleaning Quote
+                    {fixedProperties.getQuote + data.cleaning.title}
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </div>
@@ -222,7 +225,7 @@ export function ServicesSection({ data, colors }: AccordionServicesSectionProps)
                     }}
                     onClick={() => document.getElementById('quote-form')?.scrollIntoView({ behavior: 'smooth' })}
                   >
-                    Get Commercial Quote
+                    {fixedProperties.getQuote + data.commercial.title}
                     <ArrowRight className="w-4 h-4 ml-2" />
                   </Button>
                 </div>
@@ -244,10 +247,10 @@ export function ServicesSection({ data, colors }: AccordionServicesSectionProps)
               <div className="flex flex-col md:flex-row items-center justify-between gap-6">
                 <div className="text-center md:text-left">
                   <h3 className="text-2xl font-bold mb-2" style={{ color: colors.background }}>
-                    Emergency Services Available
+                    {fixedProperties.contactSectionTitle || "Contact Us for Your Quote"}
                   </h3>
                   <p className="text-lg" style={{ color: colors.background }}>
-                    Need immediate assistance? We offer same-day and emergency services.
+                    {fixedProperties.contactSectionSubtitle || "Need assistance? Call our line"}
                   </p>
                 </div>
                 <Button
@@ -261,7 +264,7 @@ export function ServicesSection({ data, colors }: AccordionServicesSectionProps)
                   onClick={() => window.open(`tel:${data.contact?.emergencyContact || '(555)123-4568'}`, '_self')}
                 >
                   <Phone className="w-5 h-5" />
-                  Emergency Line
+                  {fixedProperties.contactSectionButton || "Call Now"}
                 </Button>
               </div>
             </div>

@@ -1,11 +1,11 @@
 "use client"
 
 import { motion } from "framer-motion"
-import { 
-  Phone, 
-  Mail, 
-  MapPin, 
-  Clock, 
+import {
+  Phone,
+  Mail,
+  MapPin,
+  Clock,
   Facebook,
   Instagram,
   Twitter,
@@ -13,7 +13,9 @@ import {
   PhoneCall,
   MessageCircle,
   Star,
-  ArrowUp
+  ArrowUp,
+  Send,
+  
 } from "lucide-react"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
@@ -21,9 +23,10 @@ import { Button } from "@/components/ui/button"
 interface FooterContactSectionProps {
   data: any
   colors: any
+  fixedProperties: any
 }
 
-export function ContactSection({ data, colors }: FooterContactSectionProps) {
+export function ContactSection({ data, colors, fixedProperties }: FooterContactSectionProps) {
   const scrollToTop = () => {
     window.scrollTo({ top: 0, behavior: 'smooth' })
   }
@@ -36,7 +39,7 @@ export function ContactSection({ data, colors }: FooterContactSectionProps) {
       <div className="py-16">
         <div className="container mx-auto px-4">
           <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
-            
+
             {/* Company Info & Logo */}
             <motion.div
               initial={{ opacity: 0, y: 50 }}
@@ -48,12 +51,12 @@ export function ContactSection({ data, colors }: FooterContactSectionProps) {
               <div className="mb-6">
                 {/* Logo */}
                 <div className="flex items-center space-x-3 mb-4">
-                  <div 
+                  <div
                     className="w-12 h-12 rounded-full flex items-center justify-center"
                     style={{ backgroundColor: colors.primary }}
                   >
-                    <Image 
-                      src="/logo.png" 
+                    <Image
+                      src="/logo.png"
                       alt="GP Handy Solutions"
                       width={47}
                       height={47}
@@ -71,7 +74,7 @@ export function ContactSection({ data, colors }: FooterContactSectionProps) {
                 </div>
 
                 <p className="text-gray-300 mb-4 leading-relaxed">
-                  Professional handyman services led by a woman who believes there are no limits, only results.
+                  {fixedProperties.comment || "Professional handyman services led"}
                 </p>
 
                 <div className="flex space-x-2 mb-4">
@@ -94,14 +97,14 @@ export function ContactSection({ data, colors }: FooterContactSectionProps) {
               transition={{ duration: 0.8, delay: 0.1 }}
               viewport={{ once: true }}
             >
-              <h4 className="text-lg font-semibold text-white mb-6">Quick Links</h4>
+              <h4 className="text-lg font-semibold text-white mb-6">{fixedProperties.titleSections}</h4>
               <ul className="space-y-3">
                 {[
-                  { name: 'About Us', href: '#about' },
-                  { name: 'Our Services', href: '#services' },
-                  { name: 'Portfolio', href: '#portfolio' },
-                  { name: 'Get Quote', href: '#quote-form' },
-                  { name: 'Emergency Services', href: 'tel:' + (data.emergencyContact || '(555)123-4568') }
+                  { name: fixedProperties.about, href: '#about' },
+                  { name: fixedProperties.services, href: '#services' },
+                  { name: fixedProperties.portfolio, href: '#portfolio' },
+                  { name: fixedProperties.getQuote, href: '#quote-form' },
+                  { name: fixedProperties.phone, href: 'tel:' + (data.emergencyContact || '(555)123-4568') }
                 ].map((link, index) => (
                   <motion.li
                     key={link.name}
@@ -135,11 +138,11 @@ export function ContactSection({ data, colors }: FooterContactSectionProps) {
               transition={{ duration: 0.8, delay: 0.2 }}
               viewport={{ once: true }}
             >
-              <h4 className="text-lg font-semibold text-white mb-6">Contact Info</h4>
+              <h4 className="text-lg font-semibold text-white mb-6">{fixedProperties.titleContact}</h4>
               <div className="space-y-4">
                 {/* Phone */}
                 <div className="flex items-center space-x-3 group cursor-pointer" onClick={() => window.open(`tel:${data.phone}`, '_self')}>
-                  <div 
+                  <div
                     className="w-10 h-10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
                     style={{ backgroundColor: `${colors.primary}20` }}
                   >
@@ -147,24 +150,15 @@ export function ContactSection({ data, colors }: FooterContactSectionProps) {
                   </div>
                   <div>
                     <p className="text-white font-medium">{data.phone}</p>
-                    <p className="text-gray-400 text-sm">Main Line</p>
+                    <p className="text-gray-400 text-sm">{fixedProperties.mainLine}</p>
                   </div>
                 </div>
 
-                {/* Emergency */}
-                <div className="flex items-center space-x-3 group cursor-pointer" onClick={() => window.open(`tel:${data.emergencyContact || '(555)123-4568'}`, '_self')}>
-                  <div className="w-10 h-10 rounded-full flex items-center justify-center bg-red-500/20 group-hover:scale-110 transition-transform duration-300">
-                    <PhoneCall className="w-5 h-5 text-red-400" />
-                  </div>
-                  <div>
-                    <p className="text-white font-medium">{data.emergencyContact || '(555) 123-4568'}</p>
-                    <p className="text-gray-400 text-sm">24/7 Emergency</p>
-                  </div>
-                </div>
+
 
                 {/* Email */}
                 <div className="flex items-center space-x-3 group cursor-pointer" onClick={() => window.open(`mailto:${data.email}`, '_self')}>
-                  <div 
+                  <div
                     className="w-10 h-10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300"
                     style={{ backgroundColor: `${colors.accent}20` }}
                   >
@@ -172,13 +166,13 @@ export function ContactSection({ data, colors }: FooterContactSectionProps) {
                   </div>
                   <div>
                     <p className="text-white font-medium">{data.email}</p>
-                    <p className="text-gray-400 text-sm">Send us an email</p>
+                    <p className="text-gray-400 text-sm">{fixedProperties.sendusemail}</p>
                   </div>
                 </div>
 
                 {/* Address */}
                 <div className="flex items-start space-x-3 group cursor-pointer" onClick={() => window.open(`https://maps.google.com/?q=${encodeURIComponent(data.address)}`, '_blank')}>
-                  <div 
+                  <div
                     className="w-10 h-10 rounded-full flex items-center justify-center group-hover:scale-110 transition-transform duration-300 flex-shrink-0"
                     style={{ backgroundColor: `${colors.primary}20` }}
                   >
@@ -186,7 +180,7 @@ export function ContactSection({ data, colors }: FooterContactSectionProps) {
                   </div>
                   <div>
                     <p className="text-white font-medium">{data.address}</p>
-                    <p className="text-gray-400 text-sm">Get directions</p>
+                    <p className="text-gray-400 text-sm">{fixedProperties.getdirections}</p>
                   </div>
                 </div>
               </div>
@@ -199,51 +193,50 @@ export function ContactSection({ data, colors }: FooterContactSectionProps) {
               transition={{ duration: 0.8, delay: 0.3 }}
               viewport={{ once: true }}
             >
-              <h4 className="text-lg font-semibold text-white mb-6">Business Hours</h4>
-              
+              <h4 className="text-lg font-semibold text-white mb-6">{fixedProperties.bussinesHours}</h4>
+
               <div className="flex items-start space-x-3 mb-6">
-                <div 
+                <div
                   className="w-10 h-10 rounded-full flex items-center justify-center"
                   style={{ backgroundColor: `${colors.accent}20` }}
                 >
                   <Clock className="w-5 h-5" style={{ color: colors.accent }} />
                 </div>
-                <div>
+                <div className="flex items-center justify-center">
                   <p className="text-white font-medium">{data.hours}</p>
-                  <p className="text-gray-400 text-sm">Emergency: 24/7</p>
                 </div>
               </div>
 
-              {/* Languages */}
-              {data.languages && (
-                <div className="mb-6">
-                  <p className="text-white font-medium mb-2">Languages:</p>
-                  <p className="text-gray-300">{data.languages.join(' • ')}</p>
-                </div>
-              )}
+
 
               {/* Social Media */}
               <div>
-                <p className="text-white font-medium mb-3">Follow Us</p>
+                <p className="text-white font-medium mb-3">{fixedProperties.followUs}</p>
                 <div className="flex space-x-3">
-                  {[
-                    { icon: Facebook, href: '#', color: '#1877f2' },
-                    { icon: Instagram, href: '#', color: '#e4405f' },
-                    { icon: Twitter, href: '#', color: '#1da1f2' },
-                    { icon: MessageCircle, href: `https://wa.me/${data.phone.replace(/\D/g, '')}`, color: '#25d366' }
-                  ].map((social, index) => (
-                    <motion.a
-                      key={index}
-                      href={social.href}
-                      target="_blank"
-                      rel="noopener noreferrer"
-                      whileHover={{ scale: 1.1, y: -2 }}
-                      whileTap={{ scale: 0.9 }}
-                      className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors duration-300"
-                    >
-                      <social.icon className="w-5 h-5 text-white" />
-                    </motion.a>
-                  ))}
+                  {data?.socialNetworks?.map((social: any, index: any) =>
+                    social.active ? (
+                      <motion.a
+                        key={index}
+                        href={social.link}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        whileHover={{ scale: 1.1, y: -2 }}
+                        whileTap={{ scale: 0.9 }}
+                        className="w-10 h-10 rounded-full flex items-center justify-center bg-white/10 hover:bg-white/20 transition-colors duration-300"
+                      >
+                        {social.icon === 'Facebook' && <Facebook className="w-5 h-5 text-white" />}
+                        {social.icon === 'Instagram' && <Instagram className="w-5 h-5 text-white" />}
+                        {social.icon === 'Twitter' && <Twitter className="w-5 h-5 text-white" />}
+                        {social.icon === 'Linkedin' && <Linkedin className="w-5 h-5 text-white" />}
+                        {social.icon === 'Phone' && <PhoneCall className="w-5 h-5 text-white" />}
+                        {social.icon === 'Email' && <Mail className="w-5 h-5 text-white" />}
+                        {social.icon === 'Whatsapp' && <MessageCircle className="w-5 h-5 text-white" />}
+                        {social.icon === 'Telegram' && <Send className="w-5 h-5 text-white" />}
+                        {social.icon === 'Star' ? <Star className="w-5 h-5 text-white" /> : null}
+                       
+                      </motion.a>
+                    ) : null
+                  )}
                 </div>
               </div>
             </motion.div>
@@ -259,19 +252,11 @@ export function ContactSection({ data, colors }: FooterContactSectionProps) {
               <p className="text-gray-300 text-sm">
                 © {currentYear} GP Handy Solutions LLC. All rights reserved.
               </p>
-              <p className="text-gray-400 text-xs mt-1">
-                Licensed • Insured • Woman-Owned Business
-              </p>
+
             </div>
-            
+
             <div className="flex items-center space-x-6">
-              <a href="#" className="text-gray-300 hover:text-white text-sm transition-colors duration-300">
-                Privacy Policy
-              </a>
-              <a href="#" className="text-gray-300 hover:text-white text-sm transition-colors duration-300">
-                Terms of Service
-              </a>
-              
+
               {/* Back to Top */}
               <Button
                 variant="ghost"

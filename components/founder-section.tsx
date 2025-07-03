@@ -3,6 +3,7 @@
 import { motion } from "framer-motion"
 import Image from "next/image"
 import { Quote } from "lucide-react"
+import { BlocksRenderer } from "@strapi/blocks-react-renderer"
 
 interface FounderSectionProps {
   data: any
@@ -24,7 +25,7 @@ export function FounderSection({ data, colors }: FounderSectionProps) {
           >
             <div className="mb-8">
               <h2 className="text-4xl md:text-5xl font-bold mb-4" style={{ color: colors.secondary }}>
-                Meet the Founder
+                {data.title}
               </h2>
               <h3 className="text-2xl font-semibold mb-6" style={{ color: colors.primary }}>
                 {data.name}
@@ -42,12 +43,12 @@ export function FounderSection({ data, colors }: FounderSectionProps) {
                   style={{ color: colors.primary }} 
                 />
                 <p className="text-lg leading-relaxed pl-6" style={{ color: colors.text }}>
-                  "{data.story}"
+                  <BlocksRenderer content = {data.story}/>
                 </p>
               </div>
 
               <p className="text-lg leading-relaxed" style={{ color: colors.text }}>
-                {data.motivation}
+               <BlocksRenderer content =  {data.motivation} />
               </p>
 
               <div 
@@ -79,7 +80,7 @@ export function FounderSection({ data, colors }: FounderSectionProps) {
                   color: colors.background,
                 }}
               >
-                Work with Gina
+                {data.buttonText || "Work with Gina"}
               </button>
             </motion.div>
           </motion.div>

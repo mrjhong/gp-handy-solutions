@@ -6,6 +6,7 @@ import Image from "next/image"
 import { X, Play, ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
 import { Card, CardContent } from "@/components/ui/card"
+import { BlocksRenderer } from "@strapi/blocks-react-renderer"
 
 interface Project {
   id: number
@@ -22,16 +23,18 @@ interface Project {
 interface PortfolioSectionProps {
   data: Project[]
   colors: any
+  fixedProperties: any
 }
 
-export function PortfolioSection({ data, colors }: PortfolioSectionProps) {
+export function PortfolioSection({ data, colors, fixedProperties}: PortfolioSectionProps) {
   const [selectedProject, setSelectedProject] = useState<Project | null>(null)
-  const [filter, setFilter] = useState<string>('all')
+  const allTag = fixedProperties.allTag || "All"
+  const [filter, setFilter] = useState("All")
   const [currentIndex, setCurrentIndex] = useState(0)
-
-  const categories = ['all', ...Array.from(new Set(data.map(project => project.category)))]
+  console.log('PortfolioSection data:', fixedProperties)
+  const categories = ['All', ...Array.from(new Set(data.map(project => project.category)))]
   
-  const filteredProjects = filter === 'all' 
+  const filteredProjects = filter === 'All'
     ? data 
     : data.filter(project => project.category === filter)
 
@@ -58,7 +61,7 @@ export function PortfolioSection({ data, colors }: PortfolioSectionProps) {
 
   return (
     <>
-      <section className="py-20" style={{ backgroundColor: `${colors.primary}10` }}>
+      <section  id="portfolio" className="py-20" style={{ backgroundColor: `${colors.primary}10` }}>
         <div className="container mx-auto px-4">
           <motion.div
             initial={{ opacity: 0, y: 50 }}
@@ -68,10 +71,10 @@ export function PortfolioSection({ data, colors }: PortfolioSectionProps) {
             className="text-center mb-16"
           >
             <h2 className="text-4xl md:text-5xl font-bold mb-6" style={{ color: colors.secondary }}>
-              Our Work
+              {fixedProperties ? fixedProperties.title : "Our Work"}
             </h2>
             <p className="text-xl max-w-2xl mx-auto mb-8" style={{ color: colors.text }}>
-              See the quality and craftsmanship in our completed projects
+              {fixedProperties.subtitle || "Explore our portfolio of completed projects"}
             </p>
 
             {/* Category Filter */}
@@ -88,7 +91,7 @@ export function PortfolioSection({ data, colors }: PortfolioSectionProps) {
                     color: filter === category ? colors.background : colors.primary,
                   }}
                 >
-                  {category}
+                  {category === 'All' ? allTag : category}
                 </Button>
               ))}
             </div>
@@ -150,7 +153,11 @@ export function PortfolioSection({ data, colors }: PortfolioSectionProps) {
                       {project.title}
                     </h3>
                     <p className="text-sm" style={{ color: colors.text }}>
-                      {project.description}
+                      {Array.isArray(project.description) ? (
+                        <BlocksRenderer content={project.description} />
+                      ) : (
+                        <span>{project.description}</span>
+                      )}
                     </p>
                   </CardContent>
                 </Card>
@@ -260,7 +267,11 @@ export function PortfolioSection({ data, colors }: PortfolioSectionProps) {
                   {selectedProject.title}
                 </h3>
                 <p style={{ color: colors.text }}>
-                  {selectedProject.description}
+                  {Array.isArray(selectedProject.description) ? (
+                    <BlocksRenderer content={selectedProject.description} />
+                  ) : (
+                    <span>{selectedProject.description}</span>
+                  )}
                 </p>
               </div>
             </div>

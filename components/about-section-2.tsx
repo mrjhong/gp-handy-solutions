@@ -4,6 +4,7 @@ import { motion } from "framer-motion"
 import { Check, Target, Heart, Award } from "lucide-react"
 import Image from "next/image"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { BlocksRenderer } from "@strapi/blocks-react-renderer"
 
 interface EnhancedAboutSectionProps {
   data: any
@@ -12,7 +13,7 @@ interface EnhancedAboutSectionProps {
 
 export function AboutSection2({ data, colors }: EnhancedAboutSectionProps) {
   return (
-    <section className="py-20" style={{ backgroundColor: `${colors.primary}10` }}>
+    <section id="about" className="py-20" style={{ backgroundColor: `${colors.primary}10` }}>
       <div className="container mx-auto px-4">
         {/* Main About Section */}
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center mb-20">
@@ -29,7 +30,8 @@ export function AboutSection2({ data, colors }: EnhancedAboutSectionProps) {
               {data.subtitle}
             </p>
             <p className="text-lg mb-8 leading-relaxed" style={{ color: colors.text }}>
-              {data.description}
+              <BlocksRenderer content = {data.description}/>
+              
             </p>
 
             <ul className="space-y-4">
@@ -85,12 +87,12 @@ export function AboutSection2({ data, colors }: EnhancedAboutSectionProps) {
                   <Target className="w-8 h-8" style={{ color: colors.primary }} />
                 </div>
                 <CardTitle className="text-2xl" style={{ color: colors.secondary }}>
-                  Our Mission
+                  {data.titleMission || "Our Mission"}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-center leading-relaxed" style={{ color: colors.text }}>
-                  {data.mission}
+                  <BlocksRenderer content = {data.mission}/>
                 </p>
               </CardContent>
             </Card>
@@ -112,12 +114,12 @@ export function AboutSection2({ data, colors }: EnhancedAboutSectionProps) {
                   <Heart className="w-8 h-8" style={{ color: colors.accent }} />
                 </div>
                 <CardTitle className="text-2xl" style={{ color: colors.secondary }}>
-                  Our Promise
+                  {data.titlePromise || "Our Value Proposition"}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <p className="text-center leading-relaxed" style={{ color: colors.text }}>
-                  {data.valueProposition}
+                   <BlocksRenderer content = {data.valueProposition}/>
                 </p>
               </CardContent>
             </Card>
@@ -139,16 +141,16 @@ export function AboutSection2({ data, colors }: EnhancedAboutSectionProps) {
                   <Award className="w-8 h-8" style={{ color: colors.secondary }} />
                 </div>
                 <CardTitle className="text-2xl" style={{ color: colors.secondary }}>
-                  Our Philosophy
+                  {data.titlePhilosophy || "Our Philosophy"}
                 </CardTitle>
               </CardHeader>
               <CardContent>
                 <div className="text-center">
                   <p className="text-2xl font-bold mb-4" style={{ color: colors.primary }}>
-                    "No Limits, Only Results!"
+                    {data.subtitlePhilosophy || '"No Limits, Only Results!"'}
                   </p>
                   <p className="leading-relaxed" style={{ color: colors.text }}>
-                    We believe that with the right approach, determination, and expertise, any challenge can become an opportunity for excellence.
+                    {data.descriptionPhilosophy}
                   </p>
                 </div>
               </CardContent>

@@ -7,16 +7,17 @@ import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Textarea } from "@/components/ui/textarea"
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card"
 import { Label } from "@/components/ui/label"
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select"
 import { useToast } from "@/hooks/use-toast"
 
 interface QuoteFormProps {
   colors: any
+  fixedProperties?: any
 }
 
-export function QuoteForm({ colors }: QuoteFormProps) {
+export function QuoteForm({ colors , fixedProperties}: QuoteFormProps) {
   const [formData, setFormData] = useState({
     name: "",
     email: "",
@@ -83,10 +84,10 @@ export function QuoteForm({ colors }: QuoteFormProps) {
           className="text-center mb-16"
         >
           <h2 className="text-4xl md:text-5xl font-bold mb-6" style={{ color: colors.secondary }}>
-            Get Your Free Quote
+            {fixedProperties?.title || "Get Your Free Quote"}
           </h2>
           <p className="text-xl max-w-2xl mx-auto" style={{ color: colors.text }}>
-            Tell us about your project and we'll provide a detailed estimate
+            {fixedProperties?.subtitle || "ell us about your project and we'll provide a detailed estimate"}
           </p>
         </motion.div>
 
@@ -100,13 +101,13 @@ export function QuoteForm({ colors }: QuoteFormProps) {
             >
               <Card>
                 <CardHeader>
-                  <CardTitle style={{ color: colors.secondary }}>Request Quote</CardTitle>
+                  <CardTitle style={{ color: colors.secondary }}>{fixedProperties.formText}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <form onSubmit={handleSubmit} className="space-y-6">
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <Label htmlFor="name">Full Name</Label>
+                        <Label htmlFor="name">{fixedProperties.formFields?.name}</Label>
                         <Input
                           id="name"
                           value={formData.name}
@@ -115,7 +116,7 @@ export function QuoteForm({ colors }: QuoteFormProps) {
                         />
                       </div>
                       <div>
-                        <Label htmlFor="email">Email</Label>
+                        <Label htmlFor="email">{fixedProperties.formFields?.email}</Label>
                         <Input
                           id="email"
                           type="email"
@@ -128,7 +129,7 @@ export function QuoteForm({ colors }: QuoteFormProps) {
 
                     <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                       <div>
-                        <Label htmlFor="phone">Phone</Label>
+                        <Label htmlFor="phone">{fixedProperties.formFields?.phone}</Label>
                         <Input
                           id="phone"
                           value={formData.phone}
@@ -146,40 +147,22 @@ export function QuoteForm({ colors }: QuoteFormProps) {
                             <SelectValue placeholder="Select a service" />
                           </SelectTrigger>
                           <SelectContent>
-                            <SelectItem value="painting">Painting Services</SelectItem>
-                            <SelectItem value="flooring">Flooring Installation</SelectItem>
-                            <SelectItem value="carpentry">Carpentry Work</SelectItem>
-                            <SelectItem value="repairs">Small Repairs</SelectItem>
-                            <SelectItem value="other">Other</SelectItem>
+                            <SelectItem value="residential">{fixedProperties.formFields?.serviceOptions?.residential}</SelectItem>
+                            <SelectItem value="cleaning">{fixedProperties.formFields?.serviceOptions?.cleaning}</SelectItem>
+                            <SelectItem value="commercial">{fixedProperties.formFields?.serviceOptions?.commercial}</SelectItem>
+                            <SelectItem value="other">{fixedProperties.formFields?.serviceOptions?.other}</SelectItem>
                           </SelectContent>
                         </Select>
                       </div>
                     </div>
 
-                    <div>
-                      <Label htmlFor="budget">Budget Range</Label>
-                      <Select
-                        value={formData.budget}
-                        onValueChange={(value) => setFormData({ ...formData, budget: value })}
-                      >
-                        <SelectTrigger>
-                          <SelectValue placeholder="Select budget range" />
-                        </SelectTrigger>
-                        <SelectContent>
-                          <SelectItem value="under-500">Under $500</SelectItem>
-                          <SelectItem value="500-1000">$500 - $1,000</SelectItem>
-                          <SelectItem value="1000-2500">$1,000 - $2,500</SelectItem>
-                          <SelectItem value="2500-5000">$2,500 - $5,000</SelectItem>
-                          <SelectItem value="over-5000">Over $5,000</SelectItem>
-                        </SelectContent>
-                      </Select>
-                    </div>
+                 
 
                     <div>
-                      <Label htmlFor="description">Project Description</Label>
+                      <Label htmlFor="description">{fixedProperties.formFields?.description}</Label>
                       <Textarea
                         id="description"
-                        placeholder="Please describe your project in detail..."
+                        placeholder={fixedProperties.formFields?.descriptionPlaceholder || "Describe your project in detail..."}
                         value={formData.description}
                         onChange={(e) => setFormData({ ...formData, description: e.target.value })}
                         rows={4}
@@ -196,7 +179,7 @@ export function QuoteForm({ colors }: QuoteFormProps) {
                         color: colors.background,
                       }}
                     >
-                      {isSubmitting ? "Sending..." : "Send Quote Request"}
+                      {isSubmitting ? fixedProperties.formFields?.buttonQuoteSending : fixedProperties.formFields?.buttonQuote}
                     </Button>
                   </form>
                 </CardContent>
@@ -212,11 +195,11 @@ export function QuoteForm({ colors }: QuoteFormProps) {
             >
               <Card>
                 <CardHeader>
-                  <CardTitle style={{ color: colors.secondary }}>Quick Payment</CardTitle>
+                  <CardTitle style={{ color: colors.secondary }}>{fixedProperties.paysection?.title}</CardTitle>
                 </CardHeader>
                 <CardContent>
                   <p className="mb-4" style={{ color: colors.text }}>
-                    For existing customers or quick payments
+                   {fixedProperties.paysection?.subtitle}
                   </p>
                   <Button
                     onClick={handlePayPal}
@@ -226,33 +209,27 @@ export function QuoteForm({ colors }: QuoteFormProps) {
                       color: "white",
                     }}
                   >
-                    Pay with PayPal
+                    {fixedProperties.paysection?.buttonText || "Pay with PayPal"}
                   </Button>
                 </CardContent>
               </Card>
 
               <Card>
                 <CardHeader>
-                  <CardTitle style={{ color: colors.secondary }}>Why Choose Us?</CardTitle>
+                  <CardTitle style={{ color: colors.secondary }}> {fixedProperties.whychooseUs?.title}</CardTitle>
+                  <CardDescription style={{ color: colors.text }}> {fixedProperties.whychooseUs?.subtitle}</CardDescription>
                 </CardHeader>
+
+
                 <CardContent>
                   <ul className="space-y-3">
-                    <li className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full" style={{ backgroundColor: colors.accent }} />
-                      <span style={{ color: colors.text }}>Free estimates</span>
-                    </li>
-                    <li className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full" style={{ backgroundColor: colors.accent }} />
-                      <span style={{ color: colors.text }}>Licensed & insured</span>
-                    </li>
-                    <li className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full" style={{ backgroundColor: colors.accent }} />
-                      <span style={{ color: colors.text }}>24-hour response time</span>
-                    </li>
-                    <li className="flex items-center space-x-2">
-                      <div className="w-2 h-2 rounded-full" style={{ backgroundColor: colors.accent }} />
-                      <span style={{ color: colors.text }}>Satisfaction guaranteed</span>
-                    </li>
+                    {fixedProperties.whychooseUs?.features?.map((feature: string, index: number) => (
+                      <li key={index} className="flex items-center space-x-2">
+                        <div className="w-2 h-2 rounded-full" style={{ backgroundColor: colors.accent }} />
+                        <span style={{ color: colors.text }}>{feature}</span>
+                      </li>
+                    ))}
+                   
                   </ul>
                 </CardContent>
               </Card>

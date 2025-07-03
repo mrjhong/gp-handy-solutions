@@ -11,7 +11,7 @@ interface AboutSectionProps {
 
 export function AboutSection({ data, colors }: AboutSectionProps) {
   return (
-    <section className="py-20" style={{ backgroundColor: `${colors.primary}10` }}>
+    <section id="about" className="py-20" style={{ backgroundColor: `${colors.primary}10` }}>
       <div className="container mx-auto px-4">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
           <motion.div

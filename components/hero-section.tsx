@@ -3,6 +3,7 @@
 import { Button } from "@/components/ui/button"
 import { motion } from "framer-motion"
 import Image from "next/image"
+import { BlocksRenderer } from "@strapi/blocks-react-renderer"
 
 interface HeroSectionProps {
   data: any
@@ -59,7 +60,7 @@ export function HeroSection({ data, colors }: HeroSectionProps) {
             className="text-lg md:text-xl mb-8 max-w-2xl mx-auto"
             style={{ color: colors.textSecondary }}
           >
-            {data.description}
+           <BlocksRenderer content = {data.description}/>
           </motion.p>
 
           <motion.div
@@ -90,7 +91,7 @@ export function HeroSection({ data, colors }: HeroSectionProps) {
               }}
               onClick={() => document.getElementById("services")?.scrollIntoView({ behavior: "smooth" })}
             >
-              View Services
+              {data.servicesButton}
             </Button>
           </motion.div>
         </motion.div>
